@@ -12,7 +12,6 @@ class RankingServiceClass {
         .get(urljoin(url, dob, gender, 'United States', 'today'))
         .send()
         .then((response) => {
-          console.log('result', response.body);
           let ranking = response.body;
           return ranking;
         })

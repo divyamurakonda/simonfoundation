@@ -1,13 +1,10 @@
 import { call, put, take, fork } from 'redux-saga/effects';
-import Logger from 'js-logger';
 
 import {
   shortCountryNamesLoaded,
   selectedItems
 } from './actions';
 import countryService from '../../services/CountryService';
-
-const log = Logger.get('Country Saga');
 
 export function* loadShortCountryNames() {
   const countries = yield countryService.getCountries();

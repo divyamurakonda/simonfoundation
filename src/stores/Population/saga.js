@@ -6,8 +6,6 @@ import {
 } from './actions';
 import populationService from '../../services/PopulationService';
 
-const log = Logger.get('Population Saga');
-
 export function* loadUSAPopulation() {
   const usaPopulation = yield populationService.getUSAPopulation();
   yield put(usaPopulationLoaded(usaPopulation));
@@ -22,7 +20,6 @@ export function* watchForLoadUSAPopulation() {
 
 export function* loadWorldPopulation() {
   const worldPopulation = yield populationService.getWorldPopulation();
-  log.info('world population', worldPopulation);
   yield put(worldPopulationLoaded(worldPopulation));
 }
 

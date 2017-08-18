@@ -1,10 +1,6 @@
 import { handleActions } from 'redux-actions';
 import Immutable from 'immutable';
 
-import Logger from 'js-logger';
-
-const log = Logger.get('Reducer');
-
 const initialState = Immutable.Map({
   shortCountryNames: [],
   selectedItems: [],
