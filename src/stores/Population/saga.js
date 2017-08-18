@@ -1,5 +1,4 @@
 import { call, put, take, fork } from 'redux-saga/effects';
-import Logger from 'js-logger';
 
 import {
   usaPopulationLoaded,
