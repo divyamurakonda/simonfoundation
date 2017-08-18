@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import 'semantic-ui-css/semantic.min.css';
-import {Header, Segment, Form, Select, Input, Button, Grid, Statistic} from 'semantic-ui-react';
+import {Header, Segment, Form, Select, Input, Button, Grid, Statistic, Loader} from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {loadRanking} from '../stores/Ranking/actions';
+import {loadRanking, clearRanking} from '../stores/Ranking/actions';
 
 import FormErrors from './FormErrors';
 
@@ -18,7 +18,8 @@ class Ranking extends Component {
       dobValid: false,
       genderValid: false,
       formValid: false,
-      showErrors: false
+      showErrors: false,
+      IsLoading: false
     }
   }
 
@@ -70,11 +71,13 @@ class Ranking extends Component {
     const {dob, gender} = this.state;
     form.dob = dob;
     form.gender = gender;
+    this.setState({ isLoading: true });
     console.log('This is the form being submitted', form);
     this.props.loadRanking(form);
   }
 
   handleClear = () => {
+    this.props.clearRanking();
     this.setState({
       dob: '',
       gender: '',
@@ -83,6 +86,7 @@ class Ranking extends Component {
       dobValid: false,
       genderValid: false,
       formValid: false,
+      isLoading: false
     });
   }
 
@@ -143,6 +147,7 @@ class Ranking extends Component {
             <Button negative onClick={this.handleClear}>Clear</Button>
           </div>
         </Segment>
+        {this.props.ranking === 0 ? <Loader active={this.state.isLoading} inline='centered' /> : <div></div>}
         {this.props.ranking ?
           <Segment>
             <Grid padded relaxed columns={2}>
@@ -184,7 +189,7 @@ function mapStateToProps (state){
 };
 
 function mapActionCreatorstoProps(dispatch) {
-  return bindActionCreators({loadRanking}, dispatch);
+  return bindActionCreators({loadRanking, clearRanking}, dispatch);
 };
 
 export default connect(mapStateToProps, mapActionCreatorstoProps)(Ranking);

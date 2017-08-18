@@ -1,6 +1,5 @@
-import request from 'superagent-bluebird-promise';
 import urljoin from 'url-join';
-
+import axios from 'axios';
 import countryService from './CountryService';
 
 class PopulationServiceClass {
@@ -25,12 +24,14 @@ class PopulationServiceClass {
     const url = 'http://api.population.io/1.0/population';
     const country = 'United States';
 
-    return request
+    return axios
       .get(urljoin(url, country, today))
-      .send()
       .then((response) => {
-        return response.body.total_population.population;
+        return response.data.total_population.population;
       })
+      .catch(err => {
+        throw err;
+      });
   }
 
   getWorldPopulation = (country, date) => {
@@ -51,15 +52,15 @@ class PopulationServiceClass {
     today = yyyy + '-' + mm + '-' + dd;
 
     const url = 'http://api.population.io/1.0/population';
-    return Promise.resolve(
-     request
-        .get(urljoin(url, 'World', today))
-        .send()
-        .then((response) => {
-          let population = response.body.total_population.population;
-          return population;
-        })
-    );
+    return axios
+    .get(urljoin(url, 'World', today))
+    .then((response) => {
+      let population = response.data.total_population.population;
+      return population;
+    })
+    .catch(err => {
+      throw err;
+    });
   }
 }
 

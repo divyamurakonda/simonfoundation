@@ -1,33 +1,33 @@
-import request from 'superagent-bluebird-promise';
 import urljoin from 'url-join';
+import axios from 'axios';
 
 class CountryServiceClass {
 
   getACountryPopulationAtGivenAge = (country, age, year) => {
     const url = 'http://api.population.io/1.0/population';
-    return Promise.resolve(
-      request
+
+      return axios
         .get(urljoin(url, year, country, age))
-        .send()
         .then(response => {
-          let data = response.body[0];
+          let data = response.data[0];
           return data;
         })
-    );
+        .catch(err => {
+          throw err;
+        });
   }
 
   getCountries = () => {
 
-    const url = 'http://api.population.io/1.0';
-
+    const url = 'http://api.population.io/1.0/countries';
+    const request = axios.get(url);
     return request
-      .get(urljoin(url, '/countries'))
-      .send()
       .then((response) => {
-        return response.body.countries;
+        return response.data.countries;
       })
       .catch(err => {
         console.log('Error', err);
+        throw err;
       })
   }
 }

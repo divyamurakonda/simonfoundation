@@ -8,6 +8,7 @@ import countryService from '../../services/CountryService';
 
 export function* loadShortCountryNames() {
   const countries = yield countryService.getCountries();
+
   var min = Math.min(...countries.map(({ length }) => length));
 
   let shortCountries = [];
